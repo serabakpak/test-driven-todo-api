@@ -15,9 +15,9 @@ app.use(express.static(__dirname + '/public'));
 
 // our database is an array for now with some hardcoded values
 var todos = [
-  // { _id: 7, task: 'Laundry', description: 'Wash clothes' },
-  // { _id: 27, task: 'Grocery Shopping', description: 'Buy dinner for this week' },
-  // { _id: 44, task: 'Homework', description: 'Make this app super awesome!' }
+  { _id: 7, task: 'Laundry', description: 'Wash clothes' },
+  { _id: 27, task: 'Grocery Shopping', description: 'Buy dinner for this week' },
+  { _id: 44, task: 'Homework', description: 'Make this app super awesome!' }
 ];
 
 /**********
@@ -52,18 +52,41 @@ app.get('/api/todos/search', function search(req, res) {
 app.get('/api/todos', function index(req, res) {
   /* This endpoint responds with all of the todos
    */
+   res.json({todos: todos});
 });
 
 app.post('/api/todos', function create(req, res) {
   /* This endpoint will add a todo to our "database"
    * and respond with the newly created todo.
    */
+   var task = req.body.task;
+   var description= req.body.description;
+
+   var newTask = {
+    task: task,
+    description: description  
+   }
+
+   todos.push.newTask;
+   
+
+
+
 });
 
 app.get('/api/todos/:id', function show(req, res) {
   /* This endpoint will return a single todo with the
    * id specified in the route parameter (:id)
    */
+  console.log(req.params);
+  var id = req.params.id;
+  for (var i = 0; i < todos.length; i++) {
+    if (todos[i]._id == id) {
+      var result = todos[i];
+    }
+  }
+  res.json(result);
+    
 });
 
 app.put('/api/todos/:id', function update(req, res) {
