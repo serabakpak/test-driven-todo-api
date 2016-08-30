@@ -59,18 +59,23 @@ app.post('/api/todos', function create(req, res) {
   /* This endpoint will add a todo to our "database"
    * and respond with the newly created todo.
    */
+   
+   function genNewId() {
+      var lastId = todos[todos.length-1]._id;
+      lastId++;
+      return lastId;
+   }
+
    var task = req.body.task;
    var description= req.body.description;
 
    var newTask = {
+    _id: genNewId(),
     task: task,
     description: description  
    }
-
-   todos.push.newTask;
-   
-
-
+   todos.push(newTask);
+   res.json(newTask);
 
 });
 
@@ -94,6 +99,19 @@ app.put('/api/todos/:id', function update(req, res) {
    * id specified in the route parameter (:id) and respond
    * with the newly updated todo.
    */
+   var id = req.params.id;
+   var updatedTask = req.body.task;
+   var updatedDesc = req.body.description;
+   
+   
+    for (var i = 0; i < todos.length; i++) {
+      if (todos[i]._id == id) {
+        todos[i].task = updatedTask;
+        todos[i].description = updatedDesc;
+        var updatedTodo = todos[i]; 
+      }
+   }
+   res.json(updatedTodo);
 });
 
 app.delete('/api/todos/:id', function destroy(req, res) {
@@ -101,6 +119,18 @@ app.delete('/api/todos/:id', function destroy(req, res) {
    * id specified in the route parameter (:id) and respond
    * with success.
    */
+
+
+   var id = req.params.id;
+   
+   for (var i = 0; i < todos.length; i++) {
+     if (todos[i]._id == id) {
+       todos.splice(i, 1);
+     }
+   }
+   
+   res.json(todos);
+
 });
 
 /**********
