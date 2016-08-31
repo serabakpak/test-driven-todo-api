@@ -47,6 +47,19 @@ app.get('/api/todos/search', function search(req, res) {
   /* This endpoint responds with the search results from the
    * query in the request. COMPLETE THIS ENDPOINT LAST.
    */
+
+   var searchTask = req.query.q;
+   console.log(searchTask);
+   var foundTasks = []
+   for (var i = 0; i < todos.length; i++) {
+     if (todos[i].task.toLowerCase() == searchTask) {
+       foundTasks.push(todos[i]); 
+     }
+   }
+   var listOfFoundTasks = {todos: foundTasks};
+   res.json(listOfFoundTasks);
+
+
 });
 
 app.get('/api/todos', function index(req, res) {
@@ -60,7 +73,7 @@ app.post('/api/todos', function create(req, res) {
    * and respond with the newly created todo.
    */
    
-   function genNewId() {
+  function genNewId() {
       var lastId = todos[todos.length-1]._id;
       lastId++;
       return lastId;
@@ -119,7 +132,6 @@ app.delete('/api/todos/:id', function destroy(req, res) {
    * id specified in the route parameter (:id) and respond
    * with success.
    */
-
 
    var id = req.params.id;
    
